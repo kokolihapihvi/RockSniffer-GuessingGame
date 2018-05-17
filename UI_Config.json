@@ -1,0 +1,121 @@
+{
+	"output_file": "SnifferConfig.json",
+
+	"sniffer_ip": {
+		"type": "textbox",
+		"value": "127.0.0.1",
+		"label": "RockSniffer IP",
+		"tooltip": "Enter the RockSniffer configured addon service ip address",
+		"group": "RockSniffer"
+	},
+	"sniffer_port": {
+		"type": "numberbox",
+		"value": "9938",
+		"label": "RockSniffer Port",
+		"tooltip": "Enter the RockSniffer configured addon service port",
+		"group": "RockSniffer"
+	},
+	"sniffer_pollrate": {
+		"type": "numberbox",
+		"value": "1",
+		"label": "Pollrate (seconds)",
+		"tooltip": "How often to poll the addon service (in seconds)",
+		"group": "RockSniffer"
+	},
+
+	"gg_start_command": {
+		"type": "textbox",
+		"value": "!startgame",
+		"label": "Command to start game",
+		"tooltip": "Command to start game",
+		"group": "Guessing Game Commands"
+	},
+	"gg_guess_command": {
+		"type": "textbox",
+		"value": "!guess",
+		"label": "Command to guess",
+		"tooltip": "Command to guess",
+		"group": "Guessing Game Commands"
+	},
+	"gg_guess_command_price": {
+		"type": "numberbox",
+		"value": 0,
+		"label": "Cost to guess (points)",
+		"tooltip": "How many points does it cost to guess",
+		"group": "Guessing Game Commands"
+	},
+	"gg_end_command": {
+		"type": "textbox",
+		"value": "!endgame",
+		"label": "Command to end game",
+		"tooltip": "Command to end game",
+		"group": "Guessing Game Commands"
+	},
+	"gg_cancel_command": {
+		"type": "textbox",
+		"value": "!cancelgame",
+		"label": "Command to cancel game",
+		"tooltip": "Command to cancel game",
+		"group": "Guessing Game Commands"
+	},
+
+	"gg_autostart": {
+		"type": "checkbox",
+		"value": true,
+		"label": "Start automatically",
+		"tooltip": "Start the game automatically when RockSniffer reports a song starting",
+		"group": "Guessing Game"
+	},
+	"gg_autoend": {
+		"type": "checkbox",
+		"value": true,
+		"label": "End automatically",
+		"tooltip": "End the game automatically when RockSniffer reports a song ending",
+		"group": "Guessing Game"
+	},
+	"gg_autostart_songs": {
+		"type": "numberbox",
+		"value": 1,
+		"label": "Autostart every x songs",
+		"tooltip": "Automatically start the guessing game every x songs\n1 = Every song",
+		"group": "Guessing Game"
+	},
+	"gg_closedelay": {
+		"type": "numberbox",
+		"value": 60,
+		"label": "Close delay (seconds)",
+		"tooltip": "How long to wait before closing for new guesses (in seconds)",
+		"group": "Guessing Game"
+	},
+	"gg_reward": {
+		"type": "numberbox",
+		"value": 200,
+		"label": "Reward (points)",
+		"tooltip": "How many points the winner gets",
+		"group": "Guessing Game"
+	},
+	"gg_jackpot": {
+		"type": "checkbox",
+		"value": true,
+		"label": "Enable jackpot",
+		"tooltip": "If someone guesses very close to the result, they will win a jackpot",
+		"group": "Guessing Game"
+	},
+	"gg_jackpot_treshold": {
+		"type": "slider",
+		"value": 0.01,
+		"min": 0,
+		"max": 2,
+		"ticks": 0.01,
+		"label": "Jackpot treshold",
+		"tooltip": "Maximum distance from the result for jackpot",
+		"group": "Guessing Game"
+	},
+	"gg_jackpot_reward": {
+		"type": "numberbox",
+		"value": 2000,
+		"label": "Jackpot Reward (points)",
+		"tooltip": "How many points the jackpot winner gets",
+		"group": "Guessing Game"
+	}
+}
