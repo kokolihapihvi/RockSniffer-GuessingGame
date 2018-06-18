@@ -61,7 +61,7 @@ def Parse(parseString, user, target,message):
 
 	if "$sniffer_accuracy" in parseString:
 		return parseString.replace("$sniffer_accuracy", "{0:.2f}%".format(m_Sniffer.GetAccuracy()))
-		
+
 	return parseString
 
 #---------------------------------------
@@ -141,7 +141,7 @@ def Tick():
 
 		if m_Sniffer.Poll() == False:
 			Parent.Log(ScriptName, "Poll failed, check that RockSniffer is running and that configuration is correct")
-	
+
 	# Check guessing game state
 	if not m_GuessingGame is None and m_GuessingGame.Running:
 		if time.time() > m_GuessingGame.StartTime + Settings.gg_closedelay:
@@ -226,6 +226,9 @@ def EndGame(accuracy):
 		return
 
 	Winner_Names = list(map(lambda x: x["name"], Winners))
+
+	# Delay annoucing results to line up with end of song on stream
+    time.sleep(Settings.gg_videosync_delay)
 
 	# Check if jackpot was enabled and hit
 	if Settings.gg_jackpot:

@@ -14,5 +14,6 @@
   "gg_cancel_command": "!cancelgame",
   "gg_jackpot": true,
   "gg_jackpot_treshold": 0.01,
-  "gg_jackpot_reward": 2000
+  "gg_jackpot_reward": 2000,
+  "gg_videosync_delay": 7
 };

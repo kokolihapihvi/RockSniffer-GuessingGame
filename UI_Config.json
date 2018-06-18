@@ -117,5 +117,12 @@
 		"label": "Jackpot Reward (points)",
 		"tooltip": "How many points the jackpot winner gets",
 		"group": "Guessing Game"
+	},
+	"gg_videosync_delay": {
+		"type": "numberbox",
+		"value": 7,
+		"label": "Results videosync delay",
+		"tooltip": "How long the game result announcement is delayed",
+		"group": "Guessing Game"
 	}
 }
