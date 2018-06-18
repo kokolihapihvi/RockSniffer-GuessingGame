@@ -17,5 +17,6 @@
   "gg_jackpot": true,
   "gg_jackpot_threshold": 0.01,
   "gg_jackpot_reward": 2000,
-  "gg_videosync_delay": 7
+  "gg_videosync_delay": 7,
+  "gg_write_winners_file": false
 };

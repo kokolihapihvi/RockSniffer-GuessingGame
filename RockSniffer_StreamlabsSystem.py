@@ -18,7 +18,7 @@ ScriptName = "RockSniffer Guessing Game"
 Website = "https://github.com/kokolihapihvi/RockSniffer-GuessingGame"
 Description = "RockSniffer integration, now with 20% more sniff"
 Creator = "Kokolihapihvi"
-Version = "0.0.4"
+Version = "0.0.6"
 
 #---------------------------------------
 # Set Variables
@@ -30,6 +30,7 @@ m_GuessingGame = None
 LastPollTime = 0
 SongCounter = 0
 SongCounterLock = False
+WinnerFile = os.path.join(os.path.dirname(__file__), "gg_winner.txt")
 
 #---------------------------------------
 # [Required] Intialize Data (Only called on Load)
@@ -123,7 +124,7 @@ def Execute(data):
 			m_GuessingGame = None
 
 			Parent.SendTwitchMessage("Guessing game has been cancelled")
-			
+
 		elif data.GetParam(0).lower() == Settings.gg_autostart_command:
 			if not Parent.HasPermission(data.User, "moderator", ""):
 				return
@@ -257,6 +258,10 @@ def EndGame(accuracy):
 
 	for idx, winner in enumerate(Winners):
 		Parent.AddPoints(winner["name"], Settings.gg_reward)
+
+	if Settings.gg_write_winners_file:
+		with open(WinnerFile, "w") as f:
+			f.write(", ".join(Winner_Names))
 
 	return
 
