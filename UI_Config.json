@@ -22,7 +22,6 @@
 		"tooltip": "How often to poll the addon service (in seconds)",
 		"group": "RockSniffer"
 	},
-
 	"gg_start_command": {
 		"type": "textbox",
 		"value": "!startgame",
@@ -58,7 +57,6 @@
 		"tooltip": "Command to cancel game",
 		"group": "Guessing Game Commands"
 	},
-
 	"gg_autostart": {
 		"type": "checkbox",
 		"value": true,
@@ -71,6 +69,20 @@
 		"value": true,
 		"label": "End automatically",
 		"tooltip": "End the game automatically when RockSniffer reports a song ending",
+		"group": "Guessing Game"
+	},
+	"gg_autostart_command": {
+		"type": "textbox",
+		"value": "!autogameon",
+		"label": "Toggle Start Automatically",
+		"tooltip": "Toggle the autostart setting on",
+		"group": "Guessing Game"
+	},
+	"gg_autoend_command": {
+		"type": "textbox",
+		"value": "!autogameoff",
+		"label": "Toggle End Automatically",
+		"tooltip": "Toggle the autostart setting off",
 		"group": "Guessing Game"
 	},
 	"gg_autostart_songs": {

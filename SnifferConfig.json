@@ -7,6 +7,8 @@
   "gg_end_command": "!endgame",
   "gg_autostart": true,
   "gg_autoend": true,
+  "gg_autostart_command": "!autogameon",
+  "gg_autoend_command": "!autogameoff",
   "gg_autostart_songs": 1,
   "gg_closedelay": 60,
   "gg_reward": 200,

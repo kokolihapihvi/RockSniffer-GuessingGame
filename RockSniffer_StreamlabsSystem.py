@@ -18,7 +18,7 @@ ScriptName = "RockSniffer Guessing Game"
 Website = "https://github.com/kokolihapihvi/RockSniffer-GuessingGame"
 Description = "RockSniffer integration, now with 20% more sniff"
 Creator = "Kokolihapihvi"
-Version = "0.0.2"
+Version = "0.0.4"
 
 #---------------------------------------
 # Set Variables
@@ -123,6 +123,18 @@ def Execute(data):
 			m_GuessingGame = None
 
 			Parent.SendTwitchMessage("Guessing game has been cancelled")
+			
+		elif data.GetParam(0).lower() == Settings.gg_autostart_command:
+			if not Parent.HasPermission(data.User, "moderator", ""):
+				return
+			Settings.gg_autostart = !Settings.gg_autostart
+			Parent.SendTwitchMessage("Guessing game autostart has been set to {0}".format(Settings.gg_autostart)
+		elif data.GetParam(0).lower() == Settings.gg_autoend_command:
+			if not Parent.HasPermission(data.User, "moderator", ""):
+				return
+			Settings.gg_autoend = !Settings.gg_autoend
+			Parent.SendTwitchMessage("Guessing game autoend has been set to {0}".format(Settings.gg_autostart)
+
 	return
 
 #---------------------------------------
