@@ -101,13 +101,13 @@
 		"tooltip": "If someone guesses very close to the result, they will win a jackpot",
 		"group": "Guessing Game"
 	},
-	"gg_jackpot_treshold": {
+	"gg_jackpot_threshold": {
 		"type": "slider",
 		"value": 0.01,
 		"min": 0,
 		"max": 2,
 		"ticks": 0.01,
-		"label": "Jackpot treshold",
+		"label": "Jackpot threshold",
 		"tooltip": "Maximum distance from the result for jackpot",
 		"group": "Guessing Game"
 	},

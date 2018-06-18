@@ -232,7 +232,7 @@ def EndGame(accuracy):
 
 	# Check if jackpot was enabled and hit
 	if Settings.gg_jackpot:
-		if Winners[0]["distance"] <= Settings.gg_jackpot_treshold:
+		if Winners[0]["distance"] <= Settings.gg_jackpot_threshold:
 			Parent.SendTwitchMessage("The guessing game has ended, accuracy is {0:.2f}%, {1} hit the JACKPOT and wins {2} {3}".format(accuracy, my_join(Winner_Names), Settings.gg_jackpot_reward, Parent.GetCurrencyName()))
 
 			for idx, winner in enumerate(Winners):
