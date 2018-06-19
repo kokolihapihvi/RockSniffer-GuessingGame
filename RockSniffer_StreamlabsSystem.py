@@ -128,13 +128,14 @@ def Execute(data):
 		elif data.GetParam(0).lower() == Settings.gg_autostart_command:
 			if not Parent.HasPermission(data.User, "moderator", ""):
 				return
-			Settings.gg_autostart = !Settings.gg_autostart
-			Parent.SendTwitchMessage("Guessing game autostart has been set to {0}".format(Settings.gg_autostart)
+			Settings.gg_autostart = not Settings.gg_autostart
+			Parent.SendTwitchMessage("Guessing game autostart has been set to {0}".format(Settings.gg_autostart))
+			
 		elif data.GetParam(0).lower() == Settings.gg_autoend_command:
 			if not Parent.HasPermission(data.User, "moderator", ""):
 				return
-			Settings.gg_autoend = !Settings.gg_autoend
-			Parent.SendTwitchMessage("Guessing game autoend has been set to {0}".format(Settings.gg_autostart)
+			Settings.gg_autoend = not Settings.gg_autoend
+			Parent.SendTwitchMessage("Guessing game autoend has been set to {0}".format(Settings.gg_autoend))
 
 	return
 
@@ -234,14 +235,14 @@ def EndGame(accuracy):
 	m_GuessingGame.CloseGame()
 	Winners = m_GuessingGame.EndGame(accuracy)
 
+	# Delay annoucing results to line up with end of song on stream
+	time.sleep(Settings.gg_videosync_delay)
+
 	if len(Winners) == 0:
 		Parent.SendTwitchMessage("The guessing game has ended. Nobody guessed, nobody won")
 		return
 
 	Winner_Names = list(map(lambda x: x["name"], Winners))
-
-	# Delay annoucing results to line up with end of song on stream
-    time.sleep(Settings.gg_videosync_delay)
 
 	# Check if jackpot was enabled and hit
 	if Settings.gg_jackpot:
@@ -256,12 +257,12 @@ def EndGame(accuracy):
 
 	Parent.SendTwitchMessage("The guessing game has ended, accuracy is {0:.2f}%, {1} had the closest guess and wins {2} {3}".format(accuracy, my_join(Winner_Names), Settings.gg_reward, Parent.GetCurrencyName()))
 
-	for idx, winner in enumerate(Winners):
-		Parent.AddPoints(winner["name"], Settings.gg_reward)
-
 	if Settings.gg_write_winners_file:
 		with open(WinnerFile, "w") as f:
 			f.write(", ".join(Winner_Names))
+
+	for idx, winner in enumerate(Winners):
+		Parent.AddPoints(winner["name"], Settings.gg_reward)
 
 	return
 
