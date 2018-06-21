@@ -104,14 +104,14 @@
 		"value": 200,
 		"label": "Reward (points)",
 		"tooltip": "How many points the winner gets",
-		"group": "Guessing Game"
+		"group": "Rewards"
 	},
 	"gg_jackpot": {
 		"type": "checkbox",
 		"value": true,
 		"label": "Enable jackpot",
 		"tooltip": "If someone guesses very close to the result, they will win a jackpot",
-		"group": "Guessing Game"
+		"group": "Rewards"
 	},
 	"gg_jackpot_threshold": {
 		"type": "slider",
@@ -121,14 +121,14 @@
 		"ticks": 0.01,
 		"label": "Jackpot threshold",
 		"tooltip": "Maximum distance from the result for jackpot",
-		"group": "Guessing Game"
+		"group": "Rewards"
 	},
 	"gg_jackpot_reward": {
 		"type": "numberbox",
 		"value": 2000,
 		"label": "Jackpot Reward (points)",
 		"tooltip": "How many points the jackpot winner gets",
-		"group": "Guessing Game"
+		"group": "Rewards"
 	},
 	"gg_videosync_delay": {
 		"type": "numberbox",
@@ -142,6 +142,6 @@
 		"value": false,
 		"label": "Write winner(s) to file",
 		"tooltip": "Create a txt file with the name of the winner(s)",
-		"group": "Guessing Game"
+		"group": "Output"
 	}
 }
