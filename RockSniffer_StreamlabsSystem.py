@@ -18,7 +18,7 @@ ScriptName  = "RockSniffer Guessing Game"
 Website     = "https://github.com/kokolihapihvi/RockSniffer-GuessingGame"
 Description = "RockSniffer integration, now with 20% more sniff"
 Creator     = "Kokolihapihvi"
-Version     = "0.0.6"
+Version     = "0.0.12"
 
 #---------------------------------------
 # Set Variables
