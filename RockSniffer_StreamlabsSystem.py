@@ -14,23 +14,23 @@ from RockSniffer_GuessingGame import GuessingGame
 #---------------------------------------
 # [Required] Script Information
 #---------------------------------------
-ScriptName = "RockSniffer Guessing Game"
-Website = "https://github.com/kokolihapihvi/RockSniffer-GuessingGame"
+ScriptName  = "RockSniffer Guessing Game"
+Website     = "https://github.com/kokolihapihvi/RockSniffer-GuessingGame"
 Description = "RockSniffer integration, now with 20% more sniff"
-Creator = "Kokolihapihvi"
-Version = "0.0.6"
+Creator     = "Kokolihapihvi"
+Version     = "0.0.6"
 
 #---------------------------------------
 # Set Variables
 #---------------------------------------
-Settings = None
-SettingsFile = ""
-m_Sniffer = None
-m_GuessingGame = None
-LastPollTime = 0
-SongCounter = 0
-SongCounterLock = False
-WinnerFile = os.path.join(os.path.dirname(__file__), "gg_winner.txt")
+Settings          = None
+SettingsFile      = ""
+m_Sniffer         = None
+m_GuessingGame    = None
+LastPollTime      = 0
+SongCounter       = 0
+SongCounterLock   = False
+WinnerFile        = os.path.join(os.path.dirname(__file__), "gg_winner.txt")
 
 #---------------------------------------
 # [Required] Intialize Data (Only called on Load)
@@ -130,7 +130,7 @@ def Execute(data):
 				return
 			Settings.gg_autostart = not Settings.gg_autostart
 			Parent.SendTwitchMessage("Guessing game autostart has been set to {0}".format(Settings.gg_autostart))
-			
+
 		elif data.GetParam(0).lower() == Settings.gg_autoend_command:
 			if not Parent.HasPermission(data.User, "moderator", ""):
 				return
@@ -210,6 +210,7 @@ def Unload():
 
 	return
 
+
 def StartGame():
 	global m_GuessingGame
 	global Settings
@@ -220,13 +221,15 @@ def StartGame():
 
 	return
 
+
 def CloseGame():
 	global m_GuessingGame
 
 	m_GuessingGame.CloseGame()
 	Parent.SendTwitchMessage("The guessing game is now closed, no new guesses allowed")
 
-	return
+	returns
+
 
 def EndGame(accuracy):
 	global m_GuessingGame
@@ -244,27 +247,31 @@ def EndGame(accuracy):
 
 	Winner_Names = list(map(lambda x: x["name"], Winners))
 
-	# Check if jackpot was enabled and hit
+    ##
+	win_rwd   = Settings.gg_reward
+	win_msg   = "had the closest guess of"
+	win_guess = m_GuessingGame.BestGuess[0][1]
+    win_dist  = accuracy - win_guess
+
+    # Check if jackpot was enabled and hit
 	if Settings.gg_jackpot:
 		if Winners[0]["distance"] <= Settings.gg_jackpot_threshold:
-			Parent.SendTwitchMessage("The guessing game has ended, accuracy is {0:.2f}%, {1} hit the JACKPOT and wins {2} {3}".format(accuracy, my_join(Winner_Names), Settings.gg_jackpot_reward, Parent.GetCurrencyName()))
+			win_rwd	= Settings.gg_jackpot_reward
+			win_msg  = "hit the JACKPOT with a guess of"
 
-			for idx, winner in enumerate(Winners):
-				Parent.AddPoints(winner["name"], Settings.gg_jackpot_reward)
+	msg = "The guessing game has ended, accuracy is {0:.2f}%. {1} {2} {3} ({4:.2f} away) and wins {5} {6}!!".format(accuracy, my_join(Winner_Names), win_msg, win_guess, win_dist, win_rwd, Parent.GetCurrencyName())
 
-			return
-
-
-	Parent.SendTwitchMessage("The guessing game has ended, accuracy is {0:.2f}%, {1} had the closest guess and wins {2} {3}".format(accuracy, my_join(Winner_Names), Settings.gg_reward, Parent.GetCurrencyName()))
+	Parent.SendTwitchMessage(msg)
 
 	if Settings.gg_write_winners_file:
 		with open(WinnerFile, "w") as f:
 			f.write(", ".join(Winner_Names))
 
 	for idx, winner in enumerate(Winners):
-		Parent.AddPoints(winner["name"], Settings.gg_reward)
+		Parent.AddPoints(winner["name"], win_rwd)
 
 	return
+
 
 def my_join(lst):
 	if not lst:

@@ -9,6 +9,7 @@ class GuessingGame(object):
 		self.Completed = False
 		self.Guesses = list()
 		self.StartTime = time.time()
+		self.BestGuess = []
 
 	"""Start the guessing game"""
 	def StartGame(self):
@@ -23,7 +24,7 @@ class GuessingGame(object):
 	"""End the guessing game"""
 	def EndGame(self, accuracy):
 		self.Completed = True
-			
+
 		if self.Running:
 			return
 
@@ -49,12 +50,13 @@ class GuessingGame(object):
 			self.Guesses[idx]["distance"] = dist
 
 			if dist == BestDist:
+				self.BestGuess.append([member, member["guess"]])
 				Winners.append(member)
 
 			self.Log("{}".format(str(member)))
 
 		return Winners
-	
+
 	"""Add new guess to the guesses"""
 	def AddGuess(self, name, guess):
 		if not self.Running:
