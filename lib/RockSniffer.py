@@ -1,70 +1,70 @@
 import json
 
 class Sniffer(object):
-	def __init__(self, ip, port, reqfunc, logfunc):
-		super(Sniffer, self).__init__()
+    def __init__(self, ip, port, reqfunc, logfunc):
+        super(Sniffer, self).__init__()
 
-		self.LastPoll = None
-		self.URL = "http://{0}:{1}/".format(ip,port)
-		self.GetRequest = reqfunc
-		self.Log = logfunc
+        self.LastPoll = None
+        self.URL = "http://{0}:{1}/".format(ip,port)
+        self.GetRequest = reqfunc
+        self.Log = logfunc
 
-	def Poll(self):
-		try:
-			resp = self.GetRequest(self.URL, {})
-			self.LastPoll = json.loads(json.loads(resp)["response"])
-			
-			return True
-		except Exception as e:
-			return False
+    def Poll(self):
+        try:
+            resp = self.GetRequest(self.URL, {})
+            self.LastPoll = json.loads(json.loads(resp)["response"])
 
-	def GetSongName(self):
-		if self.LastPoll is None:
-			return "Unknown"
+            return True
+        except Exception as e:
+            return False
 
-		return self.LastPoll["songDetails"]["songName"]
+    def GetSongName(self):
+        if self.LastPoll is None:
+            return "Unknown"
 
-	def GetArtistName(self):
-		if self.LastPoll is None:
-			return "Unknown"
+        return self.LastPoll["songDetails"]["songName"]
 
-		return self.LastPoll["songDetails"]["artistName"]
+    def GetArtistName(self):
+        if self.LastPoll is None:
+            return "Unknown"
 
-	def GetAccuracy(self):
-		if self.LastPoll is None:
-			return 0.0
+        return self.LastPoll["songDetails"]["artistName"]
 
-		# Calculate total notes
-		totalNotes = self.LastPoll["memoryReadout"]["totalNotesHit"] + self.LastPoll["memoryReadout"]["totalNotesMissed"]
+    def GetAccuracy(self):
+        if self.LastPoll is None:
+            return 0.0
 
-		# Avoid dividing by 0
-		if totalNotes == 0:
-			return 0.0
+        # Calculate total notes
+        totalNotes = self.LastPoll["memoryReadout"]["totalNotesHit"] + self.LastPoll["memoryReadout"]["totalNotesMissed"]
 
-		# Calculate accuracy
-		accuracy = float(self.LastPoll["memoryReadout"]["totalNotesHit"]) / float(totalNotes)
+        # Avoid dividing by 0
+        if totalNotes == 0:
+            return 0.0
 
-		# Translate from fraction to percentage
-		accuracy *= 100.0
+        # Calculate accuracy
+        accuracy = float(self.LastPoll["memoryReadout"]["totalNotesHit"]) / float(totalNotes)
 
-		# Round to 2 decimal places
-		accuracy = float(str(round(accuracy, 2)))
+        # Translate from fraction to percentage
+        accuracy *= 100.0
 
-		return accuracy
+        # Round to 2 decimal places
+        accuracy = float(str(round(accuracy, 2)))
 
-	def GetState(self):
-		if self.LastPoll is None:
-			return 0
+        return accuracy
 
-		return self.LastPoll["currentState"]
+    def GetState(self):
+        if self.LastPoll is None:
+            return 0
 
-	def Unload(self):
-		return
+        return self.LastPoll["currentState"]
+
+    def Unload(self):
+        return
 
 class SnifferState():
-	NONE = 0
-	IN_MENUS = 1
-	SONG_SELECTED = 2
-	SONG_STARTING = 3
-	SONG_PLAYING = 4
-	SONG_ENDING = 5
+    NONE = 0
+    IN_MENUS = 1
+    SONG_SELECTED = 2
+    SONG_STARTING = 3
+    SONG_PLAYING = 4
+    SONG_ENDING = 5
