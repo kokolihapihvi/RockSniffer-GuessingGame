@@ -143,5 +143,12 @@
 		"label": "Write winner(s) to file",
 		"tooltip": "Create a txt file with the name of the winner(s)",
 		"group": "Output"
-	}
+	},
+	"gg_minimum_players": {
+		"type": "numberbox",
+		"value": 0,
+		"label": "Minimum number of players needed to play",
+		"tooltip": "Minimum number of players needed to play the guessing game",
+		"group": "Guessing Game"
+	},
 }

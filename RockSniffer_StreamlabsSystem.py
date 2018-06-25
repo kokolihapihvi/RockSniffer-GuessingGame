@@ -18,7 +18,7 @@ ScriptName  = "RockSniffer Guessing Game"
 Website     = "https://github.com/kokolihapihvi/RockSniffer-GuessingGame"
 Description = "RockSniffer integration, now with 20% more sniff"
 Creator     = "Kokolihapihvi"
-Version     = "0.0.12"
+Version     = "0.0.14"
 
 #---------------------------------------
 # Set Variables
@@ -238,20 +238,24 @@ def EndGame(accuracy):
     m_GuessingGame.CloseGame()
     Winners = m_GuessingGame.EndGame(accuracy)
 
-    # Delay annoucing results to line up with end of song on stream
-    time.sleep(Settings.gg_videosync_delay)
+    if Settings.gg_minimum_players > 0:
+        if len(m_GuessingGame.Guesses) < Settings.gg_minimum_players:
+            Parent.SendTwitchMessage("Not enough players joined the game!")
+            return
 
     if len(Winners) == 0:
+        DelayResults()
         Parent.SendTwitchMessage("The guessing game has ended. Nobody guessed, nobody won")
         return
 
+    DelayResults()
     Winner_Names = list(map(lambda x: x["name"], Winners))
 
     ##
     win_rwd   = Settings.gg_reward
     win_msg   = "had the closest guess of"
     win_guess = m_GuessingGame.BestGuess[0][1]
-    win_dist  = accuracy - win_guess
+    win_dist  = abs(accuracy - win_guess)
 
     # Check if jackpot was enabled and hit
     if Settings.gg_jackpot:
@@ -259,7 +263,14 @@ def EndGame(accuracy):
             win_rwd    = Settings.gg_jackpot_reward
             win_msg  = "hit the JACKPOT with a guess of"
 
-    msg = "The guessing game has ended, accuracy is {0:.2f}%. {1} {2} {3} ({4:.2f} away) and wins {5} {6}!!".format(accuracy, my_join(Winner_Names), win_msg, win_guess, win_dist, win_rwd, Parent.GetCurrencyName())
+    msg = "The guessing game has ended, accuracy is {0:.2f}%. {1} {2} {3} ({4:.2f}% away) and {win} {5} {6}!!".format(accuracy,
+                                                                                                                      my_join(Winner_Names),
+                                                                                                                      win_msg,
+                                                                                                                      win_guess,
+                                                                                                                      win_dist,
+                                                                                                                      win_rwd,
+                                                                                                                      Parent.GetCurrencyName(),
+                                                                                                                      win="win" if len(Winners) > 1 else "wins")
 
     Parent.SendTwitchMessage(msg)
 
@@ -271,6 +282,11 @@ def EndGame(accuracy):
         Parent.AddPoints(winner["name"], win_rwd)
 
     return
+
+
+# Delay annoucing results to line up with end of song on stream
+def DelayResults():
+    time.sleep(Settings.gg_videosync_delay)
 
 
 def my_join(lst):
