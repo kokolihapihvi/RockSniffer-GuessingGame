@@ -18,7 +18,7 @@ ScriptName  = "RockSniffer Guessing Game"
 Website     = "https://github.com/kokolihapihvi/RockSniffer-GuessingGame"
 Description = "RockSniffer integration, now with 20% more sniff"
 Creator     = "Kokolihapihvi"
-Version     = "0.0.5"
+Version     = "0.0.6"
 
 #---------------------------------------
 # Set Variables
@@ -223,26 +223,34 @@ def EndGame(accuracy):
     Winners = m_GuessingGame.EndGame(accuracy)
 
     if len(Winners) == 0:
+        DelayResults()
         Parent.SendTwitchMessage("The guessing game has ended. Nobody guessed, nobody won")
         return
 
+    DelayResults()
     Winner_Names = list(map(lambda x: x["name"], Winners))
 
-    # Delay annoucing results to line up with end of song on stream
-    time.sleep(Settings.gg_videosync_delay)
+    ##
+    win_rwd   = Settings.gg_reward
+    win_msg   = "had the closest guess of"
+    win_guess = Winners[0]["guess"]
+    win_dist  = abs(accuracy - win_guess)
 
-    # Check if jackpot was enabled and hit
     if Settings.gg_jackpot:
         if Winners[0]["distance"] <= Settings.gg_jackpot_threshold:
-            Parent.SendTwitchMessage("The guessing game has ended, accuracy is {0:.2f}%, {1} hit the JACKPOT and wins {2} {3}".format(accuracy, my_join(Winner_Names), Settings.gg_jackpot_reward, Parent.GetCurrencyName()))
+            win_rwd = Settings.gg_jackpot_reward
+            win_msg = "hit the JACKPOT with a guess of"
 
-            for idx, winner in enumerate(Winners):
-                Parent.AddPoints(winner["name"], Settings.gg_jackpot_reward)
+    msg = "The guessing game has ended, accuracy is {0:.2f}%. {1} {2} {3:.2f}% ({4:.2f}% away) and {win} {5} {6}!!".format(accuracy,
+	        my_join(Winner_Names),
+	        win_msg,
+	        win_guess,
+	        win_dist,
+	        win_rwd,
+	        Parent.GetCurrencyName(),
+	        win = "win" if len(Winners) > 1 else "wins")
 
-            return
-
-
-    Parent.SendTwitchMessage("The guessing game has ended, accuracy is {0:.2f}%, {1} had the closest guess and wins {2} {3}".format(accuracy, my_join(Winner_Names), Settings.gg_reward, Parent.GetCurrencyName()))
+    Parent.SendTwitchMessage(msg)
 
     if Settings.gg_write_winners_file:
         with open(WinnerFile, "w") as f:
@@ -252,6 +260,9 @@ def EndGame(accuracy):
         Parent.AddPoints(winner["name"], Settings.gg_reward)
 
     return
+
+def DelayResults():
+    time.sleep(Settings.gg_videosync_delay)
 
 def my_join(lst):
     if not lst:
