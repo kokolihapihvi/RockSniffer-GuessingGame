@@ -18,7 +18,7 @@ ScriptName  = "RockSniffer Guessing Game"
 Website     = "https://github.com/kokolihapihvi/RockSniffer-GuessingGame"
 Description = "RockSniffer integration, now with 20% more sniff"
 Creator     = "Kokolihapihvi"
-Version     = "0.0.2"
+Version     = "0.0.5"
 
 #---------------------------------------
 # Set Variables
@@ -30,6 +30,7 @@ m_GuessingGame  = None
 LastPollTime    = 0
 SongCounter     = 0
 SongCounterLock = False
+WinnerFile      = os.path.join(os.path.dirname(__file__), "gg_winner.txt")
 
 #---------------------------------------
 # [Required] Intialize Data (Only called on Load)
@@ -242,6 +243,10 @@ def EndGame(accuracy):
 
 
     Parent.SendTwitchMessage("The guessing game has ended, accuracy is {0:.2f}%, {1} had the closest guess and wins {2} {3}".format(accuracy, my_join(Winner_Names), Settings.gg_reward, Parent.GetCurrencyName()))
+
+    if Settings.gg_write_winners_file:
+        with open(WinnerFile, "w") as f:
+            f.write(", ".join(Winner_Names))
 
     for idx, winner in enumerate(Winners):
         Parent.AddPoints(winner["name"], Settings.gg_reward)
