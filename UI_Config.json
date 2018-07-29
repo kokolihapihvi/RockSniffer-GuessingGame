@@ -87,6 +87,21 @@
 		"tooltip": "How long to wait before closing for new guesses (in seconds)",
 		"group": "Guessing Game"
 	},
+	"gg_minimum_players": {
+		"type": "numberbox",
+		"value": 0,
+		"label": "Minimum number of players",
+		"tooltip": "Minimum number of players needed to play the guessing game",
+		"group": "Guessing Game"
+	},
+	"gg_videosync_delay": {
+		"type": "numberbox",
+		"value": 7,
+		"label": "Results videosync delay",
+		"tooltip": "How long the game result announcement is delayed",
+		"group": "Guessing Game"
+	},
+
 	"gg_reward": {
 		"type": "numberbox",
 		"value": 200,
@@ -118,13 +133,7 @@
 		"tooltip": "How many points the jackpot winner gets",
 		"group": "Rewards"
 	},
-	"gg_videosync_delay": {
-		"type": "numberbox",
-		"value": 7,
-		"label": "Results videosync delay",
-		"tooltip": "How long the game result announcement is delayed",
-		"group": "Guessing Game"
-	},
+
 	"gg_write_winners_file": {
 		"type": "checkbox",
 		"value": false,
