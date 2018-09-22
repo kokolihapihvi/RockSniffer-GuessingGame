@@ -18,7 +18,7 @@ ScriptName  = "RockSniffer Guessing Game"
 Website     = "https://github.com/kokolihapihvi/RockSniffer-GuessingGame"
 Description = "RockSniffer integration, now with 20% more sniff"
 Creator     = "Kokolihapihvi"
-Version     = "0.0.6"
+Version     = "0.0.7"
 
 #---------------------------------------
 # Set Variables
@@ -221,6 +221,11 @@ def EndGame(accuracy):
 
     m_GuessingGame.CloseGame()
     Winners = m_GuessingGame.EndGame(accuracy)
+
+    if Settings.gg_minimum_players > 0:
+        if len(m_GuessingGame.Guesses) < Settings.gg_minimum_players:
+            Parent.SendTwitchMessage("Not enough players joined the game!")
+            return
 
     if len(Winners) == 0:
         DelayResults()
