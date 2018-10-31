@@ -1,12 +1,14 @@
 import json
 
 class Sniffer(object):
-    def __init__(self, ip, port, reqfunc, logfunc):
+    def __init__(self, ip, port, getreqfunc, putreqfunc, logfunc):
         super(Sniffer, self).__init__()
 
         self.LastPoll = None
         self.URL = "http://{0}:{1}/".format(ip,port)
-        self.GetRequest = reqfunc
+        self.StorageURL = "http://{0}:{1}/storage/".format(ip,port)
+        self.GetRequest = getreqfunc
+        self.PutRequest = putreqfunc
         self.Log = logfunc
 
     def Poll(self):
@@ -61,6 +63,9 @@ class Sniffer(object):
     def Unload(self):
         return
 
+    def GetStorage(self, addonid):
+    	return SnifferStorage(addonid, self)
+
 class SnifferState():
     NONE = 0
     IN_MENUS = 1
@@ -68,3 +73,20 @@ class SnifferState():
     SONG_STARTING = 3
     SONG_PLAYING = 4
     SONG_ENDING = 5
+
+""" Sniffer Storage """
+class SnifferStorage(object):
+	def __init__(self, addonid, sniffer):
+		super(SnifferStorage, self).__init__()
+
+		self.Sniffer = sniffer
+		self.StorageURL = "{0}{1}/".format(self.Sniffer.StorageURL, addonid)
+
+	def Store(self, key, value):
+		if type(value) is not dict:
+			raise ValueError("Value must be dict")
+
+		self.Sniffer.PutRequest("{0}{1}".format(self.StorageURL, key), {}, value, True)
+
+	def Get(self, key):
+		return json.loads(self.Sniffer.GetRequest("{0}{1}".format(self.StorageURL, key)))

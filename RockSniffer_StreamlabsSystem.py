@@ -26,6 +26,7 @@ Version     = "0.0.7"
 Settings        = None
 SettingsFile    = ""
 m_Sniffer       = None
+m_Storage       = None
 m_GuessingGame  = None
 LastPollTime    = 0
 SongCounter     = 0
@@ -40,13 +41,15 @@ def Init():
     global Settings
     global SettingsFile
     global m_Sniffer
+    global m_Storage
 
     # Load settings
     SettingsFile = os.path.join(os.path.dirname(__file__), "SnifferConfig.json")
     Settings = SnifferSettings(SettingsFile)
 
     # Ready the sniffer
-    m_Sniffer = Sniffer(Settings.sniffer_ip, Settings.sniffer_port, Parent.GetRequest, lambda x: Parent.Log("Sniffer", str(x)))
+    m_Sniffer = Sniffer(Settings.sniffer_ip, Settings.sniffer_port, Parent.GetRequest, Parent.PutRequest, lambda x: Parent.Log("Sniffer", str(x)))
+    m_Storage = m_Sniffer.GetStorage("guessinggame")
 
     return
 
@@ -199,9 +202,10 @@ def Unload():
 
 def StartGame():
     global m_GuessingGame
+    global m_Storage
     global Settings
 
-    m_GuessingGame = GuessingGame(lambda x: Parent.Log("GG", str(x)))
+    m_GuessingGame = GuessingGame(lambda x: Parent.Log("GG", str(x)), m_Storage)
     m_GuessingGame.StartGame()
     Parent.SendTwitchMessage("Started guessing game, you have {0} seconds to !guess the accuracy".format(Settings.gg_closedelay))
 

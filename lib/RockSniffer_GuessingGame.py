@@ -1,14 +1,18 @@
 import time
 
 class GuessingGame(object):
-    def __init__(self, log):
+    def __init__(self, log, storage):
         super(GuessingGame, self).__init__()
 
         self.Log = log
+        self.Storage = storage
+
         self.Running = False
         self.Completed = False
         self.Guesses = list()
         self.StartTime = time.time()
+
+        self.Storage.Store("guesses", {"Guesses": self.Guesses})
 
     """Start the guessing game"""
     def StartGame(self):
@@ -66,5 +70,7 @@ class GuessingGame(object):
         self.Guesses.append({"name": name, "guess": guess})
 
         self.Log("Added guess {0}: {1}".format(name, guess))
+
+        self.Storage.Store("guesses", {"Guesses": self.Guesses})
 
         return True
