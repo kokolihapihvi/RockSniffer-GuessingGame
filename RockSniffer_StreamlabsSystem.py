@@ -266,7 +266,7 @@ def EndGame(accuracy):
             f.write(", ".join(Winner_Names))
 
     for idx, winner in enumerate(Winners):
-        Parent.AddPoints(winner["name"], Settings.gg_reward)
+        Parent.AddPoints(winner["name"], win_rwd)
 
     return
 
