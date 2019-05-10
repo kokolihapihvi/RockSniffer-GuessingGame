@@ -36,18 +36,13 @@ class Sniffer(object):
         if self.LastPoll is None:
             return 0.0
 
-        # Calculate total notes
-        totalNotes = self.LastPoll["memoryReadout"]["totalNotesHit"] + self.LastPoll["memoryReadout"]["totalNotesMissed"]
-
-        # Avoid dividing by 0
-        if totalNotes == 0:
+        if self.LastPoll["memoryReadout"] is None:
             return 0.0
 
-        # Calculate accuracy
-        accuracy = float(self.LastPoll["memoryReadout"]["totalNotesHit"]) / float(totalNotes)
+        if self.LastPoll["memoryReadout"]["noteData"] is None:
+            return 0.0
 
-        # Translate from fraction to percentage
-        accuracy *= 100.0
+        accuracy = self.LastPoll["memoryReadout"]["noteData"]["Accuracy"]
 
         # Round to 2 decimal places
         accuracy = float(str(round(accuracy, 2)))
