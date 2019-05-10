@@ -103,9 +103,10 @@ def Execute(data):
             if m_GuessingGame is None or m_GuessingGame.Completed:
                 return
 
-            if not Parent.RemovePoints(data.User, Settings.gg_guess_command_price):
-                Parent.SendTwitchMessage("@{0} You can't afford that".format(data.User))
-                return
+            if not (Settings.gg_guess_command_price == 0):
+                if not Parent.RemovePoints(data.User, Settings.gg_guess_command_price):
+                    Parent.SendTwitchMessage("@{0} You can't afford that".format(data.User))
+                    return
 
             try:
                 Guess = max(0.0, min(100.0, float(data.GetParam(1))))
